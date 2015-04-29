@@ -10,7 +10,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import org.hibernate.annotations.ForeignKey;
 
 /**
  *
@@ -24,8 +27,8 @@ public class Pessoa implements Serializable{
     
     @Id
     @GeneratedValue//Auto incrementa o ID
-    @Column(name="IdPessoa", nullable = false)
     
+    @Column(name="IdPessoa", nullable = false)    
     private Integer idPessoa;
     @Column (name="Name", nullable = false, length = 80)
     private String nome;
@@ -36,10 +39,16 @@ public class Pessoa implements Serializable{
     @Column (name="CPF", nullable = false, length = 14)
     private String cpf;
     @Column (name="DataDeNascimento", nullable = false)
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataDeNascimento;
     @Column (name="DataDeCadastro", nullable = false)
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataDeCadastro;       
 
+    @ManyToOne(optional=false)
+    @ForeignKey(name = "PessoaName")
+    private Pessoa pessoa;
+    
     public Pessoa() {
     }
 
@@ -119,7 +128,5 @@ public class Pessoa implements Serializable{
             return false;
         }
         return true;
-    }
- 
-    
+    }     
 }
